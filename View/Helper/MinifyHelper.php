@@ -9,6 +9,7 @@ App::uses('AppHelper', 'View/Helper');
  * 		An entry in core.php - "MinifyAsset" - value of which is either set 'true' or 'false'.
  * 		False would be usually set during development and/or debugging. True should be set in production mode.
  * @package		app.View.Helper
+ * @property HtmlHelper $Html
  */
 class MinifyHelper extends AppHelper {
 
