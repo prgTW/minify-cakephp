@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Minify Controller
  *
@@ -7,8 +8,6 @@
  * @package		app.Controller
  */
 class MinifyController extends Controller {
-
-	public $name = 'Minify';
 
 	/**
 	 * Take care of any minifying requests.
@@ -24,4 +23,3 @@ class MinifyController extends Controller {
 	}
 
 }
-?>

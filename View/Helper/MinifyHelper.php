@@ -1,4 +1,5 @@
 <?php
+
 App::uses('AppHelper', 'View/Helper');
 
 /**
@@ -29,7 +30,7 @@ class MinifyHelper extends AppHelper {
 		}
 	}
 
-	public function _path($assets, $ext) {
+	protected function _path($assets, $ext) {
 		if (!is_array($assets)) {
 			$assets = array($assets);
 		}
@@ -42,6 +43,5 @@ class MinifyHelper extends AppHelper {
 
 		return substr($path, 0, count($path) - 2);
 	}
-}
 
-?>
+}
