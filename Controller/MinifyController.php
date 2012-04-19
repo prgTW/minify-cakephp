@@ -16,7 +16,7 @@ class MinifyController extends Controller {
 	 * @return void
 	 */
 	public function index() {
-		App::import('Minify.Vendor', 'minify' . DS . 'index');
+		App::import('Vendor', 'Minify.Vendor', array('file' => 'minify' . DS . 'index.php'));
 
 		$this->response->statusCode('304');
 		exit;
