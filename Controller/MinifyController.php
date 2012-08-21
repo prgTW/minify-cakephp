@@ -3,11 +3,13 @@
 /**
  * Minify Controller
  *
- * Classe responsável pela compressão de arquivos javascript e css.
+ * Controller responsible for forwarding the javascript and css files.
  *
  * @package		app.Controller
  */
 class MinifyController extends Controller {
+
+	public $name = 'Minify';
 
 	/**
 	 * Take care of any minifying requests.
@@ -15,11 +17,41 @@ class MinifyController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function index() {
+	public function index($type) {
+		$files = array_unique(explode(',', $_GET['f']));
+		$plugins = array();
+		$pluginSymlinks = array();
+		$newFiles = array();
+
+		foreach ($files as &$file) {
+			if (empty($file)) {
+				continue;
+			}
+
+			$plugin = false;
+			list($first, $second) = pluginSplit($file);
+			if (CakePlugin::loaded($first) === true) {
+				$file = $second;
+				$plugin = $first;
+			}
+
+			$pluginPath = (!empty($plugin) ? '..' . DS . 'Plugin' . DS . $plugin . DS . WEBROOT_DIR . DS : '');
+			$file = $pluginPath . $type . DS . $file . '.' . $type;
+			$newFiles[] = $file;
+
+			if (!empty($plugin) && !isset($plugins[$plugin])) {
+				$plugins[$plugin] = true;
+
+				$pluginSymlinks['/' . $this->request->base . '/' . Inflector::underscore($plugin)] = APP . 'Plugin' . DS . $plugin . DS . WEBROOT_DIR;
+			}
+		}
+		$_GET['f'] = implode(',', $newFiles);
+		$_GET['symlinks'] = $pluginSymlinks;
+
 		App::import('Vendor', 'Minify.minify/index');
 
 		$this->response->statusCode('304');
-		exit;
+		exit();
 	}
 
 }
